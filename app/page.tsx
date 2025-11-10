@@ -6,25 +6,29 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import React, { useEffect, useState } from "react";
+import { Typewriter } from "react-simple-typewriter";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 export default function Home() {
-  const [typedText, setTypedText] = useState("");
   const fullText = "System Developer · .NET · Azure";
+  const [typedText, setTypedText] = useState("");
 
-  // Typing effect hook ✅ (React-safe)
   useEffect(() => {
-    let i = 0;
+    setTypedText(""); // nollställ text
+    let index = 0;
     const speed = 80;
 
-    const typeWriter = () => {
-      if (i < fullText.length) {
-        setTypedText((prev) => prev + fullText.charAt(i));
-        i++;
-        setTimeout(typeWriter, speed);
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        setTypedText((prev) => prev + fullText[index]);
+        index++;
+      } else {
+        clearInterval(interval);
       }
-    };
+    }, speed);
 
-    typeWriter();
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -32,29 +36,41 @@ export default function Home() {
       {/* 🔹 Navigationsmeny */}
       <Navbar />
 
-      {/* 🔹 Hero-sektion */}
-      <section
-        id="hero"
-        className="flex flex-col items-center justify-center text-center h-[90vh] space-y-6"
-      >
-        <motion.img
-          src="/Gurdip.jpg"
-          alt="Gurdip Bola"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="rounded-full border-4 border-blue-400 shadow-[0_0_40px_10px_rgba(56,189,248,0.3)] object-cover w-40 h-40 md:w-48 md:h-48"
-        />
+    
+{/* 🔹 Hero-sektion */}
+<section
+  id="hero"
+  className="flex flex-col items-center justify-center text-center h-[90vh] space-y-6"
+>
+  <motion.img
+    src="/Gurdip.jpg"
+    alt="Gurdip Bola"
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+    className="rounded-full border-4 border-blue-400 shadow-[0_0_40px_10px_rgba(56,189,248,0.3)] object-cover w-40 h-40 md:w-48 md:h-48"
+  />
 
-        <h1 className="text-5xl md:text-6xl font-extrabold text-blue-400">
-          Gurdip Bola
-        </h1>
+  <h1 className="text-5xl md:text-6xl font-extrabold text-blue-400">
+    Gurdip Bola
+  </h1>
 
-        <div className="text-lg md:text-xl text-slate-300">
-          <span>{typedText}</span>
-          <span className="ml-1 text-blue-400 animate-blink">|</span>
-        </div>
-      </section>
+ <span className="text-blue-400">
+  <Typewriter
+    words={["System Developer · .NET · Azure"]}
+    cursor
+    cursorStyle="|"
+    typeSpeed={80}
+    deleteSpeed={0}
+    delaySpeed={3000}
+ 
+  />
+</span>
+
+
+</section>
+
+
 
       {/* 🔹 Om mig */}
       <About />
@@ -166,9 +182,12 @@ export default function Home() {
       {/* 🔹 Kontakt */}
       <Contact />
 
+      {/* 🔹 Scroll to top button */}
+<ScrollToTop />
+
       {/* 🔹 Sidfot */}
       <footer className="border-t border-slate-800 py-10 text-center text-slate-500 text-sm">
-        © {new Date().getFullYear()} Gurdip Bola. Alla rättigheter förbehållna.
+        © {new Date().getFullYear()} Gurdip Bola.
       </footer>
     </main>
   );
