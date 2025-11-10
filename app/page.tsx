@@ -1,65 +1,175 @@
-import Image from "next/image";
+"use client";
+import { motion } from "framer-motion";
+import Navbar from "./components/Navbar";
+import About from "./components/About";
+import Skills from "./components/Skills";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
+import React, { useEffect, useState } from "react";
 
 export default function Home() {
+  const [typedText, setTypedText] = useState("");
+  const fullText = "System Developer · .NET · Azure";
+
+  // Typing effect hook ✅ (React-safe)
+  useEffect(() => {
+    let i = 0;
+    const speed = 80;
+
+    const typeWriter = () => {
+      if (i < fullText.length) {
+        setTypedText((prev) => prev + fullText.charAt(i));
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    };
+
+    typeWriter();
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-200 scroll-smooth font-mono">
+      {/* 🔹 Navigationsmeny */}
+      <Navbar />
+
+      {/* 🔹 Hero-sektion */}
+      <section
+        id="hero"
+        className="flex flex-col items-center justify-center text-center h-[90vh] space-y-6"
+      >
+        <motion.img
+          src="/Gurdip.jpg"
+          alt="Gurdip Bola"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="rounded-full border-4 border-blue-400 shadow-[0_0_40px_10px_rgba(56,189,248,0.3)] object-cover w-40 h-40 md:w-48 md:h-48"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <h1 className="text-5xl md:text-6xl font-extrabold text-blue-400">
+          Gurdip Bola
+        </h1>
+
+        <div className="text-lg md:text-xl text-slate-300">
+          <span>{typedText}</span>
+          <span className="ml-1 text-blue-400 animate-blink">|</span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* 🔹 Om mig */}
+      <About />
+
+      {/* 🔹 Färdigheter */}
+      <Skills />
+
+      {/* 🔹 Projekt */}
+      <Projects />
+
+      {/* 🔹 CV & Personligt brev */}
+      <section
+        id="documents"
+        className="max-w-6xl mx-auto px-6 py-32 text-center text-slate-300"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-4xl font-bold text-slate-200 mb-10"
+        >
+          CV & Personligt brev
+        </motion.h2>
+
+        <div className="grid md:grid-cols-2 gap-10">
+          {/* CV */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0px 0px 35px rgba(56,189,248,0.35)",
+            }}
+            className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 shadow-lg transition-all duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <h3 className="text-2xl font-semibold text-blue-400 mb-4">Mitt CV</h3>
+            <iframe
+              src="/GurdipBolaCV5.pdf"
+              className="w-full h-96 rounded-lg border border-slate-700 mb-4"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <a
+              href="/GurdipBolaCV5.pdf"
+              download
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)]"
+            >
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+                />
+              </motion.svg>
+              Ladda ner CV
+            </a>
+          </motion.div>
+
+          {/* Personligt brev */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0px 0px 35px rgba(56,189,248,0.35)",
+            }}
+            className="bg-slate-800/60 border border-slate-700 rounded-xl p-6 shadow-lg transition-all duration-300"
           >
-            Documentation
-          </a>
+            <h3 className="text-2xl font-semibold text-blue-400 mb-4">
+              Personligt brev
+            </h3>
+            <iframe
+              src="/Personligt%20Brev-Gurdip5.pdf"
+              className="w-full h-96 rounded-lg border border-slate-700 mb-4"
+            />
+            <a
+              href="/Personligt%20Brev-Gurdip5.pdf"
+              download
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg transition-all duration-300 hover:shadow-[0_0_15px_rgba(56,189,248,0.5)]"
+            >
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+                />
+              </motion.svg>
+              Ladda ner brev
+            </a>
+          </motion.div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* 🔹 Kontakt */}
+      <Contact />
+
+      {/* 🔹 Sidfot */}
+      <footer className="border-t border-slate-800 py-10 text-center text-slate-500 text-sm">
+        © {new Date().getFullYear()} Gurdip Bola. Alla rättigheter förbehållna.
+      </footer>
+    </main>
   );
 }
