@@ -1,67 +1,77 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 
 export default function FloatingCode() {
-  const [codes, setCodes] = useState<
-    { text: string; x: number; delay: number; duration: number }[]
-  >([]);
-
-  useEffect(() => {
-    const snippets = [
-      "public async Task<IActionResult> GetAll() { }",
-      "builder.Services.AddControllers();",
-      "console.log('Azure Connected');",
-      "using Microsoft.EntityFrameworkCore;",
-      "for (int i = 0; i < 10; i++) { }",
-      "return Ok(result);",
-      "const data = await fetch('/api');",
-      "<div className='container'>",
-    ];
-
-    const generated = Array.from({ length: 25 }).map(() => ({
-      text: snippets[Math.floor(Math.random() * snippets.length)],
-      x: Math.random() * 100, // horisontell placering
-      delay: Math.random() * 15, // olika starttider
-      duration: 20 + Math.random() * 10, // flyttid
-    }));
-
-    setCodes(generated);
-  }, []);
+  const floatingSnippets = useMemo(
+    () =>
+      Array.from({ length: 18 }).map((_, i) => ({
+        text: [
+          "public async Task<IActionResult> GetAll() { }",
+          "builder.Services.AddControllers();",
+          "console.log('Azure Connected');",
+          "using Microsoft.EntityFrameworkCore;",
+          "for (int i = 0; i < 10; i++) { }",
+          "return Ok(result);",
+          "const data = await fetch('/api');",
+          "<div className='container'>",
+          "app.UseHttpsRedirection();",
+          "services.AddDbContext<AppDbContext>();",
+          "if (ModelState.IsValid) { }",
+          "npm run build && npm start",
+          "<motion.div whileHover={{ scale: 1.1 }} />",
+          "FROM mcr.microsoft.com/dotnet/aspnet:9.0",
+          "docker-compose up --build",
+          "console.log('Hello Gurdip');",
+          "await context.SaveChangesAsync();",
+          "return View(model);",
+        ][i % 18],
+        left: `${Math.random() * 90}%`, // narrower range so it's centered
+        top: `${Math.random() * 100}%`,
+        duration: `${10 + Math.random() * 10}s`,
+        delay: `${Math.random() * 5}s`,
+      })),
+    []
+  );
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {codes.map((code, i) => (
-        <span
+    <div
+      className="absolute inset-0 overflow-hidden font-mono text-blue-400 text-xs md:text-sm opacity-30 pointer-events-none"
+      style={{
+        zIndex: 0, // below text, but within same layer
+        maskImage:
+          "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+      }}
+    >
+      {floatingSnippets.map((code, i) => (
+        <p
           key={i}
-          className="absolute text-blue-400 text-[10px] md:text-sm font-mono opacity-40 animate-float glow"
+          className="absolute animate-float glow"
           style={{
-            left: `${code.x}%`,
-            animationDelay: `${code.delay}s`,
-            animationDuration: `${code.duration}s`,
+            left: code.left,
+            top: code.top,
+            animationDuration: code.duration,
+            animationDelay: code.delay,
+            whiteSpace: "nowrap",
           }}
         >
           {code.text}
-        </span>
+        </p>
       ))}
 
       <style jsx global>{`
         @keyframes float {
           0% {
-            transform: translateY(110vh);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.4;
+            transform: translateY(100vh);
+            opacity: 0.2;
           }
           50% {
             opacity: 0.8;
           }
-          90% {
-            opacity: 0.4;
-          }
           100% {
-            transform: translateY(-10vh);
-            opacity: 0;
+            transform: translateY(-100vh);
+            opacity: 0.2;
           }
         }
 
@@ -72,6 +82,12 @@ export default function FloatingCode() {
         .glow {
           text-shadow: 0 0 8px rgba(56, 189, 248, 0.8),
             0 0 20px rgba(56, 189, 248, 0.6);
+        }
+
+        html,
+        body {
+          overflow-x: hidden !important;
+          position: relative;
         }
       `}</style>
     </div>
