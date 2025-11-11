@@ -25,8 +25,8 @@ export default function About() {
         viewport={{ once: true }}
         className="text-lg leading-relaxed max-w-3xl mx-auto text-slate-300 inline-block text-left"
       >
-        Jag är en systemutvecklare baserad i Stockholm med fokus på .NET och
-        Azure. Jag brinner för att bygga säkra och skalbara API:er samt för en
+        Jag är en systemutvecklare med fokus på .NET och Azure.
+        Jag brinner för att bygga säkra och skalbara API:er samt för en
         ren och strukturerad kodbas. Jag gillar att förvandla idéer till
         genomtänkta digitala lösningar och att ständigt utveckla mina kunskaper
         inom ny teknik
