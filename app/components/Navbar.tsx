@@ -33,7 +33,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Hem", href: "#hero" },
     { name: "Om mig", href: "#about" },
-    { name: "Skills", href: "#skills" },
+    { name: "Kompetens", href: "#kompetens" },
     { name: "Projekt", href: "#projects" },
     { name: "Kontakt", href: "#contact" },
   ];
