@@ -118,9 +118,10 @@ export default function Home() {
 
       {/* 🔹 Hero Section */}
       <section
-        id="hero"
-        className="flex flex-col items-center justify-center text-center h-[90vh] space-y-6 relative z-10"
-      >
+      
+      id="hero"
+        className="pt-24 flex flex-col items-center justify-center text-center h-[90vh] space-y-6"
+>   
         <motion.img
           src="/Gurdip.jpg"
           alt="Gurdip Bola"

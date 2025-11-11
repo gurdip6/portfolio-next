@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,7 @@ export default function Navbar() {
       });
 
       setActiveSection(current);
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -30,15 +32,21 @@ export default function Navbar() {
     { name: "Om mig", href: "#about" },
     { name: "Kompetens", href: "#kompetens" },
     { name: "Projekt", href: "#projects" },
-    { name: "CV & PB", href: "#documents" },
+    { name: "CV & Brev", href: "#documents" },
     { name: "Kontakt", href: "#contact" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-900/70 backdrop-blur border-b border-slate-800">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 border-b border-slate-800 transition-all duration-300 ${
+        scrolled
+          ? "bg-slate-900/90 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.4)]"
+          : "bg-slate-900/70 backdrop-blur-sm"
+      }`}
+    >
       <nav className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4 text-slate-300 font-medium">
-        {/* 🔹 Links */}
-        <div className="flex gap-8">
+        {/* 🔹 Navigationslänkar */}
+        <div className="flex flex-wrap gap-6 md:gap-8">
           {links.map((link) => (
             <Link
               key={link.name}
@@ -51,7 +59,7 @@ export default function Navbar() {
             >
               <span className="pb-1">{link.name}</span>
 
-              {/* 🔹 Blue glow line under text */}
+              {/* 🔹 Glowande linje under text */}
               <span
                 className={`absolute left-1/2 -bottom-[4px] h-[2px] w-0 bg-blue-400 rounded-full transition-all duration-300 ease-out transform -translate-x-1/2 group-hover:w-full ${
                   activeSection === link.href.replace("#", "")
@@ -63,7 +71,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* 🔹 Social links */}
+        {/* 🔹 Sociala länkar */}
         <div className="flex gap-6 items-center">
           {/* LinkedIn */}
           <Link
@@ -74,9 +82,9 @@ export default function Navbar() {
             <Image
               src="/project5.png"
               alt="LinkedIn"
-              width={22}
-              height={22}
-              className="rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+              width={26}
+              height={26}
+              className="rounded-full shadow-[0_0_15px_rgba(56,189,248,0.6)] hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition-all duration-300"
             />
             <span className="hidden sm:inline">LinkedIn</span>
           </Link>
@@ -90,9 +98,9 @@ export default function Navbar() {
             <Image
               src="/project4.png"
               alt="GitHub"
-              width={22}
-              height={22}
-              className="rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+              width={26}
+              height={26}
+              className="rounded-full shadow-[0_0_15px_rgba(56,189,248,0.6)] hover:shadow-[0_0_25px_rgba(56,189,248,0.8)] transition-all duration-300"
             />
             <span className="hidden sm:inline">GitHub</span>
           </Link>
