@@ -110,7 +110,7 @@ export default function Home() {
               typeSpeed={80}
               deleteSpeed={0}
               delaySpeed={3000}
-              loop={false}
+              
             />
           </span>
         </section>

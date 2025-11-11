@@ -1,24 +1,20 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = document.querySelectorAll("section[id]");
+      const sections = document.querySelectorAll<HTMLElement>("section[id]");
       let current = "";
 
       sections.forEach((section) => {
-        const element = section as HTMLElement;
-        const sectionTop = element?.offsetTop ?? 0;
-        const sectionHeight = element?.offsetHeight ?? 0;
-
-        if (window.scrollY >= sectionTop - sectionHeight / 3) {
-          current = element.getAttribute("id") || "";
+        const sectionTop = section.offsetTop - 80;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute("id") || "";
         }
       });
 
@@ -26,91 +22,80 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
+  const links = [
     { name: "Hem", href: "#hero" },
     { name: "Om mig", href: "#about" },
     { name: "Kompetens", href: "#kompetens" },
     { name: "Projekt", href: "#projects" },
+    { name: "CV & PB", href: "#documents" },
     { name: "Kontakt", href: "#contact" },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900/70 backdrop-blur border-b border-slate-800">
-      <nav className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-4 text-slate-300">
-        
-        {/* 🔹 Navigationslänkar */}
-        <div className="flex gap-6 justify-center md:justify-start">
-          {navItems.map((item) => (
+      <nav className="max-w-6xl mx-auto flex justify-between items-center px-6 py-4 text-slate-300 font-medium">
+        {/* 🔹 Links */}
+        <div className="flex gap-8">
+          {links.map((link) => (
             <Link
-              key={item.href}
-              href={item.href}
-              className="relative group font-medium tracking-wide"
+              key={link.name}
+              href={link.href}
+              className={`relative group transition-colors duration-300 hover:text-blue-400 ${
+                activeSection === link.href.replace("#", "")
+                  ? "text-blue-400"
+                  : ""
+              }`}
             >
-              <span
-                className={`transition-colors duration-300 ${
-                  activeSection === item.href.slice(1)
-                    ? "text-blue-400"
-                    : "group-hover:text-blue-400"
-                }`}
-              >
-                {item.name}
-              </span>
+              <span className="pb-1">{link.name}</span>
 
-              <motion.span
-                layoutId="underline"
-                className={`absolute left-0 bottom-[-4px] h-[2px] bg-blue-400 rounded-full transition-all duration-300 ${
-                  activeSection === item.href.slice(1)
-                    ? "w-full"
-                    : "w-0 group-hover:w-full"
+              {/* 🔹 Blue glow line under text */}
+              <span
+                className={`absolute left-1/2 -bottom-[4px] h-[2px] w-0 bg-blue-400 rounded-full transition-all duration-300 ease-out transform -translate-x-1/2 group-hover:w-full ${
+                  activeSection === link.href.replace("#", "")
+                    ? "w-full shadow-[0_0_8px_rgba(56,189,248,0.8)]"
+                    : "group-hover:shadow-[0_0_8px_rgba(56,189,248,0.8)]"
                 }`}
-              />
+              ></span>
             </Link>
           ))}
         </div>
 
-        {/* 🔹 Sociala länkar */}
-        <div className="flex gap-6 mt-4 md:mt-0 items-center">
+        {/* 🔹 Social links */}
+        <div className="flex gap-6 items-center">
           {/* LinkedIn */}
-          <a
+          <Link
             href="https://www.linkedin.com/in/gurdip-bola-b82136217/"
             target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-blue-400 transition-colors"
           >
-            <div className="relative">
-              <Image
-                src="/project5.png"
-                alt="LinkedIn"
-                width={28}
-                height={28}
-                className="rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_12px_4px_rgba(56,189,248,0.4)]"
-              />
-            </div>
-            <span className="font-medium">LinkedIn</span>
-          </a>
+            <Image
+              src="/project5.png"
+              alt="LinkedIn"
+              width={22}
+              height={22}
+              className="rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+            />
+            <span className="hidden sm:inline">LinkedIn</span>
+          </Link>
 
           {/* GitHub */}
-          <a
+          <Link
             href="https://github.com/gurdip6"
             target="_blank"
-            rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-blue-400 transition-colors"
           >
-            <div className="relative">
-              <Image
-                src="/project4.png"
-                alt="GitHub"
-                width={28}
-                height={28}
-                className="rounded-full transition-transform duration-300 hover:scale-110 hover:shadow-[0_0_12px_4px_rgba(56,189,248,0.4)]"
-              />
-            </div>
-            <span className="font-medium">GitHub</span>
-          </a>
+            <Image
+              src="/project4.png"
+              alt="GitHub"
+              width={22}
+              height={22}
+              className="rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+            />
+            <span className="hidden sm:inline">GitHub</span>
+          </Link>
         </div>
       </nav>
     </header>
