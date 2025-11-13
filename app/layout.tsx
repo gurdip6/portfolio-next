@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react"; 
 
 export const metadata: Metadata = {
   title: "Gurdip Bola | System Developer .NET & Azure",
@@ -45,7 +45,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="sv">
-      <body>{children}</body>
+      <body className="bg-slate-950 text-slate-200">
+        {children}
+
+        {/* 👇 Analytics måste ligga här */}
+        <Analytics />
+      </body>
     </html>
   );
 }
